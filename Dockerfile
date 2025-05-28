@@ -19,8 +19,14 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
-# Устанавливаем Puppeteer
+# Устанавливаем Puppeteer как зависимость проекта
+WORKDIR /usr/src/app
+COPY package*.json ./
 RUN npm install puppeteer
+COPY . .
 
-# Указываем путь к Chromium
+# Указываем путь к Chromium (опционально, если уже в Render)
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Запускаем n8n
+CMD ["n8n"]
